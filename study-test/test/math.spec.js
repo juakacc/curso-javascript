@@ -1,5 +1,6 @@
 const assert = require("assert");
 const Math = require("../src/math.js");
+const expect = require("chai").expect;
 
 let value = 0;
 
@@ -14,7 +15,8 @@ describe("Math class", function () {
   it("Sum two numbers", function () {
     const math = new Math();
 
-    assert.equal(math.sum(5, 5), 10);
+    expect(math.sum(5, 5)).to.equal(10);
+    // assert.equal(math.sum(5, 5), 10);
   });
 
   // assincrono
@@ -34,6 +36,20 @@ describe("Math class", function () {
   it("Mutiply two numbers", function () {
     const math = new Math();
 
-    assert(math.mutiply(5, 5), 24);
+    expect(math.mutiply(5, 5)).to.equal(25);
+    // assert(math.mutiply(5, 5), 24);
+  });
+
+  it("Comparando objetos", function () {
+    const obj = {
+      name: "João da Silva",
+    };
+    expect(obj).to.have.property("name");
+
+    const obj2 = {
+      name: "João da Silva",
+    };
+
+    expect(obj).to.deep.equal(obj2); // Compara o valor dos atributos
   });
 });
