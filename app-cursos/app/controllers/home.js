@@ -1,3 +1,5 @@
+const login = require("../../config/auth").login;
+
 module.exports = function (app) {
   const Curso = app.models.curso;
 
@@ -17,6 +19,26 @@ module.exports = function (app) {
           console.log(err);
         } else {
           res.json(curso);
+        }
+      });
+    },
+    remove: function (req, res) {
+      Curso.remove({_id: req.params.id}, function (err) {
+        if (!err) {
+          res.json({message: "success"});
+        } else {
+          res.status(500).send();
+        }
+      });
+    },
+    login: function (req, res) {
+      const {name, password} = req.body;
+
+      login(name, password, function (response) {
+        if (response) {
+          res.json(response);
+        } else {
+          res.status(401).json({message: "erro de autenticação"});
         }
       });
     },

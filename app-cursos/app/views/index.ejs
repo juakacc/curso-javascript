@@ -12,6 +12,7 @@
       <% for(var i = 0; i < cursos.length; i++) { %>
       <li>
         <%= cursos[i].nome %> - <%= cursos[i].categoria %>
+        <button onclick="removeCourse('<%= cursos[i]._id %>')">X</button>
       </li>
       <% } %>
     </ul>
@@ -33,6 +34,7 @@
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage["token"]}`,
         },
         body: JSON.stringify({nome, categoria}),
       })
@@ -40,6 +42,37 @@
         .then(() => location.reload())
         .catch(err => {
           console.log(err);
+        });
+    }
+
+    function removeCourse(id) {
+      fetch(`/${id}`, {
+        method: "delete",
+        headers: {
+          Authorization: `Bearer ${localStorage["token"]}`,
+        },
+      })
+        .then(resp => resp.json())
+        .then(() => location.reload())
+        .catch(err => {
+          console.log(err);
+        });
+    }
+
+    function login() {
+      fetch("/login", {
+        method: "post",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({name: "joaquim", password: "joaquim123"}),
+      })
+        .then(resp => resp.json())
+        .then(resp => {
+          if (resp.token) {
+            localStorage["token"] = resp.token;
+          }
         });
     }
   </script>
